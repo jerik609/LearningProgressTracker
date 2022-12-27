@@ -1,7 +1,8 @@
 package tracker.data;
 
 public class Name {
-    private final static String VALIDATION_REGEX = ".*";
+    private final static String VALIDATION_LOOKAHEAD_REGEX = "(?!.*'')(?!.*--)(?!.*'-)(?!.*-')(?!.  )";
+    private final static String VALIDATION_REGEX = "[A-Z]([a-zA-Z']*|   -   .*";//"([A-Z][a-z]+    (a-zA-Z\\-\\']  ";
     private final static Validator validator = new Validator(VALIDATION_REGEX);
 
     private final String firstname;
