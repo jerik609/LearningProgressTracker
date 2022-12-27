@@ -18,22 +18,20 @@ public class Student {
     }
 
     public static class Builder {
-        private String name;
-        private String emailAddress;
+        private Name name;
+        private EmailAddress emailAddress;
 
-        Builder name(String name) {
+        Builder name(Name name) {
             this.name = name;
             return this;
         }
 
-        Builder emailAddress(String emailAddress) {
+        Builder emailAddress(EmailAddress emailAddress) {
             this.emailAddress = emailAddress;
             return this;
         }
 
         Student build() {
-            final var name = Name.buildFrom(this.name);
-            final var emailAddress = EmailAddress.buildFrom(this.emailAddress);
             if (name == null || emailAddress == null) {
                 return null;
             }

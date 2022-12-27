@@ -1,7 +1,7 @@
 package tracker.data;
 
 public class EmailAddress {
-    private final static String VALIDATION_REGEX = "";
+    private final static String VALIDATION_REGEX = ".*";
     private final static Validator validator = new Validator(VALIDATION_REGEX);
 
     private final String emailAddress;
@@ -10,7 +10,8 @@ public class EmailAddress {
         this.emailAddress = emailAddress;
     }
 
-    public String getEmailAddress() {
+    @Override
+    public String toString() {
         return emailAddress;
     }
 
