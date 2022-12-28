@@ -1,23 +1,62 @@
 package tracker.data;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class NameTest {
+    @Test
+    public void hyphenApostropheValidationTest() {
+        final String[] invalidCases = new String[]{
+                "in--between", "in''between",
+                "in-'between", "in'-between",
+                "bordering'", "bordering-",
+                "-bordering", "'bordering"
+        };
+        final var pattern = Pattern.compile(Name.INVALID_HYPHEN_APOSTROPHE_REGEX);
+        for (var item : invalidCases) {
+            System.out.println("processing: " + item);
+            assertFalse(pattern.matcher(item).matches());
+        }
+    }
 
     @Test
-    @DisplayName("Accepts various names")
-    void buildFrom() {
-        //var name = Name.buildFrom("Jean--Moo", "Van de B''oo");
-        var pattern = Pattern.compile("(?!.*moo).*");
-        var matcher = pattern.matcher("maoo m45oo moso");
+    public void subItemValidationTest() {
+        final String[] validCases = new String[]{
+                "Hello", "M"
+        };
+        final String[] invalidCases = new String[]{
+                "HHello", "aaM"
+        };
+        final var pattern = Pattern.compile(Name.VALID_SUB_ITEM_REGEX);
+        for (var item : validCases) {
+            System.out.println("processing: " + item);
+            assertTrue(pattern.matcher(item).matches());
+        }
+        for (var item : invalidCases) {
+            System.out.println("processing: " + item);
+            assertFalse(pattern.matcher(item).matches());
+        }
+    }
 
-        System.out.println(matcher.matches());
+    @Test
+    public void parseNameTest1() {
+        final var splitName = List.of("Jean-Claude","Van","Damme");
+        final var name = Name.buildFrom(splitName);
+        assertNotNull(name);
+        assertEquals(splitName.get(0), name.getFirstname());
+        assertEquals(splitName.get(1) + " " + splitName.get(2), name.getSurname());
+    }
 
-
+    @Test
+    public void parseNameTest2() {
+        final var splitName = List.of("Bob", "O'Neill");
+        final var name = Name.buildFrom(splitName);
+        assertNotNull(name);
+        assertEquals(splitName.get(0), name.getFirstname());
+        assertEquals(splitName.get(1), name.getSurname());
     }
 }
