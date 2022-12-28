@@ -1,7 +1,9 @@
 package tracker.controller.input;
 
 import tracker.controller.Controller;
+import tracker.controller.command.commands.BackCommand;
 import tracker.controller.command.Command;
+import tracker.controller.command.commands.AddStudentCommand;
 import tracker.controller.command.commands.EmptyInputCommand;
 import tracker.controller.command.commands.StopCommand;
 import tracker.controller.command.commands.UnknownCommand;
@@ -18,6 +20,8 @@ public class CommandFactory {
             case EXIT -> new StopCommand(controller);
             case UNKNOWN -> new UnknownCommand();
             case EMPTY_INPUT -> new EmptyInputCommand();
+            case ADD_STUDENTS -> new AddStudentCommand();
+            case BACK -> new BackCommand();
         };
     }
 }

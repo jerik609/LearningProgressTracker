@@ -59,4 +59,13 @@ class NameTest {
         assertEquals(splitName.get(0), name.getFirstname());
         assertEquals(splitName.get(1), name.getSurname());
     }
+
+    @Test
+    public void parseNameTest3() {
+        final var splitName = List.of("John", "D.");
+        final var name = Name.buildFrom(splitName);
+        assertNotNull(name);
+        assertEquals(splitName.get(0), name.getFirstname());
+        assertEquals(splitName.get(1), name.getSurname());
+    }
 }

@@ -21,17 +21,17 @@ public class Student {
         private Name name;
         private EmailAddress emailAddress;
 
-        Builder name(Name name) {
+        public Builder name(Name name) {
             this.name = name;
             return this;
         }
 
-        Builder emailAddress(EmailAddress emailAddress) {
+        public Builder emailAddress(EmailAddress emailAddress) {
             this.emailAddress = emailAddress;
             return this;
         }
 
-        Student build() {
+        public Student build() {
             if (name == null || emailAddress == null) {
                 return null;
             }

@@ -36,26 +36,26 @@ public class Name {
         final var hyphenApostrophePattern = Pattern.compile(INVALID_HYPHEN_APOSTROPHE_REGEX);
         final var subItemPattern = Pattern.compile(VALID_SUB_ITEM_REGEX);
 
-        for (var item : split) {
-            if (!hyphenApostrophePattern.matcher(item).matches()) {
-                System.out.println("Invalid hyphen/apostrophe sequence: " + split);
+        var valid = true;
+        for (int i = 0; i < split.size(); i++) {
+            valid = hyphenApostrophePattern.matcher(split.get(i)).matches();
+            valid &= Arrays.stream(split.get(i)
+                                    .split(SUB_NAME_SPLIT_PATTERN_REGEX))
+                            .allMatch(subItem -> {
+                                final var validSubItem = subItemPattern.matcher(subItem).matches();
+                                //if (!validSubItem) System.out.println("Invalid subItem: " + subItem);
+                                return validSubItem;
+                            });
+            if (!valid) {
+                if (i == 0) {
+                    System.out.println("Incorrect first name");
+                } else {
+                    System.out.println("Incorrect last name");
+                }
                 return false;
             }
-
-            return IntStream.rangeClosed(0, split.size() - 1)
-                    .mapToObj(split::get)
-                    .allMatch(subName -> {
-                        final var validSubName = Arrays.stream(subName.split(SUB_NAME_SPLIT_PATTERN_REGEX)).allMatch(subItem -> {
-                            final var validSubItem = subItemPattern.matcher(subItem).matches();
-                            if (!validSubItem) System.out.println("Invalid subItem: " + subItem);
-                            return validSubItem;
-                        });
-                        if (!validSubName) System.out.println("Invalid subName: " + subName);
-                        return validSubName;
-                    });
         }
-        System.out.println("Invalid input: " + split);
-        return false;
+        return true;
     }
 
     public static Name buildFrom(List<String> split) {
@@ -67,7 +67,7 @@ public class Name {
                     .trim();
             return new Name(firstname, surname);
         }
-        System.out.println("Invalid name: " + split);
+        //System.out.println("Invalid name: " + split);
         return null;
     }
 }

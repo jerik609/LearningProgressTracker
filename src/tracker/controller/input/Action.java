@@ -1,16 +1,28 @@
 package tracker.controller.input;
 
 public enum Action {
-    EXIT, UNKNOWN, EMPTY_INPUT ;
+    EXIT("exit"),
+    UNKNOWN("unknown"),
+    EMPTY_INPUT(""),
+    ADD_STUDENTS("add students"),
+    BACK("back");
+
+    private final String commandStr;
+
+    Action(String commandStr) {
+        this.commandStr = commandStr;
+    }
 
     public static Action from(String input) {
-        if (input.trim().equals("")) {
-            return EMPTY_INPUT;
+        final var sanitizedInput = input.trim().toLowerCase();
+        if (sanitizedInput.equals("unknown")) {
+            return UNKNOWN;
         }
-        try {
-            return Action.valueOf(input.toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return Action.UNKNOWN;
+        for (var cmd : Action.values()) {
+            if (cmd.commandStr.equals(input)) {
+                return cmd;
+            }
         }
+        return UNKNOWN;
     }
 }

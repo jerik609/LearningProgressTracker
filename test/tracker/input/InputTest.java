@@ -9,8 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InputTest {
     @Test
-    public void fullyIntegratedValidationTest() {
+    public void validInputTest() {
         final var testStr = "Jerik The Big Bad-Ass Dog jerik.the.dogg@doge.wuf";
-        Input.parseStudentStr(testStr);
+        assertNotNull(Input.parseStudentStr(testStr));
+    }
+
+    @Test
+    public void invalidInputTest() {
+        final var testStr = "John D. name@domain.com";
+        assertNull(Input.parseStudentStr(testStr));
     }
 }

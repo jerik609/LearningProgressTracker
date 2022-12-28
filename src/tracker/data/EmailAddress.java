@@ -35,7 +35,7 @@ public class EmailAddress {
         if (validateEmail(emailAddress)) {
             return new EmailAddress(emailAddress);
         }
-        System.out.println("Invalid email address: " + emailAddress);
+        System.out.println("Incorrect email");
         return null;
     }
 }
