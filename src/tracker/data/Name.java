@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 public class Name {
     public final static String INVALID_HYPHEN_APOSTROPHE_REGEX = "(?!.*[-']{2})(?!^[-'])(?!.*[-']$).*";
     public final static String SUB_NAME_SPLIT_PATTERN_REGEX = "[-']";
-    public final static String VALID_SUB_ITEM_REGEX = "[A-Z][a-z]*";
+    public final static String VALID_SUB_ITEM_REGEX = "[A-Za-z]*";
 
     private final String firstname;
     private final String surname;
@@ -32,25 +32,24 @@ public class Name {
         return surname;
     }
 
-    public static boolean validateName(List<String> split) {
+    public static boolean validateGroup(String group, Pattern pattern) {
+        if (group.length() < 2) return false;
         final var hyphenApostrophePattern = Pattern.compile(INVALID_HYPHEN_APOSTROPHE_REGEX);
-        final var subItemPattern = Pattern.compile(VALID_SUB_ITEM_REGEX);
+        return hyphenApostrophePattern.matcher(group).matches() &&
+                Arrays.stream(group.split(SUB_NAME_SPLIT_PATTERN_REGEX))
+                        .allMatch(subItem -> pattern.matcher(subItem).matches());
+    }
 
+    public static boolean validateName(List<String> split) {
+        final var subItemPattern = Pattern.compile(VALID_SUB_ITEM_REGEX);
         var valid = true;
         for (int i = 0; i < split.size(); i++) {
-            valid = hyphenApostrophePattern.matcher(split.get(i)).matches();
-            valid &= Arrays.stream(split.get(i)
-                                    .split(SUB_NAME_SPLIT_PATTERN_REGEX))
-                            .allMatch(subItem -> {
-                                final var validSubItem = subItemPattern.matcher(subItem).matches();
-                                //if (!validSubItem) System.out.println("Invalid subItem: " + subItem);
-                                return validSubItem;
-                            });
+            valid = validateGroup(split.get(i), subItemPattern);
             if (!valid) {
                 if (i == 0) {
-                    System.out.println("Incorrect first name");
+                    System.out.println("Incorrect first name.");
                 } else {
-                    System.out.println("Incorrect last name");
+                    System.out.println("Incorrect last name.");
                 }
                 return false;
             }

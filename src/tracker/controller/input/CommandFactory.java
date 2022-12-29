@@ -8,10 +8,15 @@ import tracker.controller.command.commands.EmptyInputCommand;
 import tracker.controller.command.commands.StopCommand;
 import tracker.controller.command.commands.UnknownCommand;
 
+import java.util.Scanner;
+
 public class CommandFactory {
+    private final Scanner scanner;
     private final Controller controller;
 
-    public CommandFactory(Controller controller) {
+
+    public CommandFactory(Scanner scanner, Controller controller) {
+        this.scanner = scanner;
         this.controller = controller;
     }
 
@@ -20,7 +25,7 @@ public class CommandFactory {
             case EXIT -> new StopCommand(controller);
             case UNKNOWN -> new UnknownCommand();
             case EMPTY_INPUT -> new EmptyInputCommand();
-            case ADD_STUDENTS -> new AddStudentCommand();
+            case ADD_STUDENTS -> new AddStudentCommand(scanner);
             case BACK -> new BackCommand();
         };
     }

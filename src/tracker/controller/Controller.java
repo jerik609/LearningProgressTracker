@@ -16,7 +16,7 @@ public class Controller {
         this.scanner = scanner;
         this.executor = executor;
         stop = false;
-        commandFactory = new CommandFactory(this);
+        commandFactory = new CommandFactory(scanner, this);
     }
 
     public void run() {

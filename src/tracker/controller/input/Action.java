@@ -19,7 +19,7 @@ public enum Action {
             return UNKNOWN;
         }
         for (var cmd : Action.values()) {
-            if (cmd.commandStr.equals(input)) {
+            if (cmd.commandStr.equals(sanitizedInput)) {
                 return cmd;
             }
         }

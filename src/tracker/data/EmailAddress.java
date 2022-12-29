@@ -13,7 +13,7 @@ It should contain
 - the domain part.
  */
 public class EmailAddress {
-    public final static String VALID_EMAIL_REGEX = "(\\w+\\.)*\\w+@\\w+\\.[a-z]{3}";
+    public final static String VALID_EMAIL_REGEX = "[\\w.]+@\\w+\\.\\w+";
 
     private final String emailAddress;
 
@@ -35,7 +35,7 @@ public class EmailAddress {
         if (validateEmail(emailAddress)) {
             return new EmailAddress(emailAddress);
         }
-        System.out.println("Incorrect email");
+        System.out.println("Incorrect email.");
         return null;
     }
 }
