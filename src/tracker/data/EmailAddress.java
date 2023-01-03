@@ -1,8 +1,6 @@
 package tracker.data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /*
@@ -21,6 +19,10 @@ public class EmailAddress {
         this.emailAddress = emailAddress;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
     @Override
     public String toString() {
         return emailAddress;
@@ -37,5 +39,22 @@ public class EmailAddress {
         }
         System.out.println("Incorrect email.");
         return null;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailAddress);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!this.getClass().isInstance(obj)) {
+            return false;
+        }
+        var email = this.getClass().cast(obj);
+        return this.emailAddress.equals(email.getEmailAddress());
     }
 }
