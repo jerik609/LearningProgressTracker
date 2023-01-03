@@ -11,7 +11,7 @@ public class Generic<T> {
         System.out.println(this.getClass().toString());
     }
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         Generic<Double> dd = new Generic<>(Double.class);
         dd.sayHello();
     }

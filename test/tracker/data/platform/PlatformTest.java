@@ -1,6 +1,11 @@
-package tracker.data;
+package tracker.data.platform;
 
 import org.junit.jupiter.api.Test;
+import tracker.data.platform.Account;
+import tracker.data.platform.Platform;
+import tracker.data.student.EmailAddress;
+import tracker.data.student.Name;
+import tracker.data.student.Student;
 
 import java.util.List;
 import java.util.Set;

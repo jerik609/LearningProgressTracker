@@ -1,4 +1,8 @@
-package tracker.data;
+package tracker.data.platform;
+
+import tracker.data.platform.Account;
+import tracker.data.student.EmailAddress;
+import tracker.data.student.Student;
 
 import java.security.InvalidParameterException;
 import java.util.*;

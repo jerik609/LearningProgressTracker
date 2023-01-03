@@ -1,6 +1,7 @@
-package tracker.data;
+package tracker.data.student;
 
 import org.junit.jupiter.api.Test;
+import tracker.data.student.Name;
 
 import java.util.List;
 import java.util.regex.Pattern;

@@ -1,10 +1,8 @@
-package tracker.data;
+package tracker.data.student;
 
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 public class Name {
     public final static String INVALID_HYPHEN_APOSTROPHE_REGEX = "(?!.*[-']{2})(?!^[-'])(?!.*[-']$).*";

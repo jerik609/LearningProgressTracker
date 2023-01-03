@@ -1,7 +1,8 @@
-package tracker.data;
+package tracker.data.student;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tracker.data.student.EmailAddress;
 
 import static org.junit.jupiter.api.Assertions.*;
 

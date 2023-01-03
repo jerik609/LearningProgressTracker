@@ -1,10 +1,9 @@
 package tracker.input;
 
-import tracker.data.EmailAddress;
-import tracker.data.Name;
-import tracker.data.Student;
+import tracker.data.student.EmailAddress;
+import tracker.data.student.Name;
+import tracker.data.student.Student;
 
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 
 public class Input {

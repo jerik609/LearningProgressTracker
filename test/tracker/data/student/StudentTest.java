@@ -1,4 +1,4 @@
-package tracker.data;
+package tracker.data.student;
 
 import org.junit.jupiter.api.Test;
 

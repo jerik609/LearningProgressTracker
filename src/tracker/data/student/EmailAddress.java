@@ -1,4 +1,4 @@
-package tracker.data;
+package tracker.data.student;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

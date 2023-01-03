@@ -1,4 +1,7 @@
-package tracker.data;
+package tracker.data.platform;
+
+import tracker.data.student.CourseScore;
+import tracker.data.student.Student;
 
 import java.util.HashMap;
 import java.util.Map;

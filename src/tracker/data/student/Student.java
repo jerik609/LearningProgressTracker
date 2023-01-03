@@ -1,4 +1,4 @@
-package tracker.data;
+package tracker.data.student;
 
 public class Student {
     private final Name name;

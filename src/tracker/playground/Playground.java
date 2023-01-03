@@ -25,7 +25,7 @@ public class Playground {
         return this.address.equals(myAddress);
     }
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
 //        int number = 18;
 //        var changed = number & (16-1); // & operator // 15
 //        System.out.println(changed);

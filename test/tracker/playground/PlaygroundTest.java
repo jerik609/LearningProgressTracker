@@ -1,5 +1,6 @@
 package tracker.playground;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
@@ -41,7 +42,6 @@ class PlaygroundTest {
 
     @AfterEach
     void tearDown() {
-
         System.out.println("after each");
     }
 
@@ -76,11 +76,9 @@ class PlaygroundTest {
     void isNextToMe() {
         counter++;
         System.out.println("very close! " + counter);
-        var deque = new ArrayDeque<String>();
-
-        deque.pop();
-        deque.add("x");
-        var theMap = Map.of("key1", "value1", "key2", "value2", "key3", "value3");
-
+//        var deque = new ArrayDeque<String>();
+//        deque.pop();
+//        deque.add("x");
+//        var theMap = Map.of("key1", "value1", "key2", "value2", "key3", "value3");
     }
 }

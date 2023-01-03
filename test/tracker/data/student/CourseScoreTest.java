@@ -1,6 +1,7 @@
-package tracker.data;
+package tracker.data.student;
 
 import org.junit.jupiter.api.Test;
+import tracker.data.student.CourseScore;
 
 import static org.junit.jupiter.api.Assertions.*;
 
