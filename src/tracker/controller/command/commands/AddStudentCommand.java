@@ -1,15 +1,18 @@
 package tracker.controller.command.commands;
 
 import tracker.controller.command.Command;
+import tracker.data.platform.Platform;
 import tracker.input.Input;
 
 import java.util.Scanner;
 
 public class AddStudentCommand implements Command {
     private final Scanner scanner;
+    private final Platform platform;
 
-    public AddStudentCommand(Scanner scanner) {
+    public AddStudentCommand(Scanner scanner, Platform platform) {
         this.scanner = scanner;
+        this.platform = platform;
     }
 
     @Override
@@ -22,10 +25,10 @@ public class AddStudentCommand implements Command {
                 System.out.println("Total " + addedCount + " students have been added.");
                 break;
             }
-            if (Input.parseStudentStr(input) != null) {
-                System.out.println("The student has been added.");
-                ++addedCount;
-            }
+            var student = Input.parseStudentStr(input).orElseThrow();
+            platform.createAccount(student);
+            System.out.println("The student has been added.");
+            ++addedCount;
         } while (true);
     }
 }

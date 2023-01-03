@@ -3,6 +3,7 @@ package tracker.input;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +18,7 @@ class InputTest {
     @Test
     public void invalidInputTest() {
         final var testStr = "John D. name@domain.com";
-        assertNull(Input.parseStudentStr(testStr));
+        assertEquals(Optional.empty(), Input.parseStudentStr(testStr));
     }
 
     @Test

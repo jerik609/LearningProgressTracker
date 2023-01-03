@@ -24,7 +24,7 @@ public class CommandFactory {
             case EXIT -> new StopCommand(controller);
             case UNKNOWN -> new UnknownCommand();
             case EMPTY_INPUT -> new EmptyInputCommand();
-            case ADD_STUDENTS -> new AddStudentCommand(scanner);
+            case ADD_STUDENTS -> new AddStudentCommand(scanner, platform);
             case BACK -> new BackCommand();
             case LIST_STUDENTS -> new ListCommand(platform);
             case ADD_POINTS -> new AddPointsCommand(scanner, platform);

@@ -11,6 +11,10 @@ public class Main {
         final var scanner = new Scanner(System.in);
         final var executor = new Executor();
         final var platform = new Platform();
+        platform.addCourse("Java");
+        platform.addCourse("DSA");
+        platform.addCourse("Databases");
+        platform.addCourse("Spring");
         final var controller = new Controller(scanner, executor, platform);
         controller.run();
     }
