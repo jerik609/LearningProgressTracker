@@ -5,7 +5,10 @@ public enum Action {
     UNKNOWN("unknown"),
     EMPTY_INPUT(""),
     ADD_STUDENTS("add students"),
-    BACK("back");
+    BACK("back"),
+    LIST_STUDENTS("list"),
+    ADD_POINTS("add points"),
+    FIND_STUDENT("find");
 
     private final String commandStr;
 

@@ -3,6 +3,7 @@ package tracker.controller;
 import tracker.controller.command.Executor;
 import tracker.controller.input.Action;
 import tracker.controller.input.CommandFactory;
+import tracker.data.platform.Platform;
 
 import java.util.Scanner;
 
@@ -12,11 +13,11 @@ public class Controller {
     private final CommandFactory commandFactory;
     private boolean stop;
 
-    public Controller(Scanner scanner, Executor executor) {
+    public Controller(Scanner scanner, Executor executor, Platform platform) {
         this.scanner = scanner;
         this.executor = executor;
         stop = false;
-        commandFactory = new CommandFactory(scanner, this);
+        commandFactory = new CommandFactory(scanner, this, platform);
     }
 
     public void run() {
