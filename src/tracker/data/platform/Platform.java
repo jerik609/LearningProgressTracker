@@ -8,22 +8,28 @@ import java.security.InvalidParameterException;
 import java.util.*;
 
 public class Platform {
+    private int nextCourseId = 0;
+    private int addedStudents = 0;
 
     private final Set<EmailAddress> knownEmails = new HashSet<>();
-    private final Set<String> knownCourses = new HashSet<>();
-    private final Map<Integer, Account> accounts = new HashMap<>();
+    private final Map<Integer, String> knownCourses = new LinkedHashMap<>();
+    private final Map<Integer, Account> accounts = new LinkedHashMap<>();
 
     public void addCourse(String courseId) {
-        knownCourses.add(courseId);
+        knownCourses.put(nextCourseId, courseId);
+        nextCourseId++;
     }
 
-    public void createAccount(Student student) {
+    public boolean createAccount(Student student) {
         if (knownEmails.contains(student.getEmailAddress())) {
-            throw new InvalidParameterException("email already registered: " + student.getEmailAddress().getEmailAddress());
+            System.out.println("This email is already taken.");
+            return false;
         }
-        var account = new Account.Builder().student(student).courses(knownCourses).build();
+        final var account = new Account.Builder().student(student).courses(knownCourses.keySet()).build();
         accounts.putIfAbsent(account.getId(), account);
         knownEmails.add(student.getEmailAddress());
+        addedStudents++;
+        return true;
     }
 
     public Set<Integer> getAccountIds() {
@@ -32,5 +38,15 @@ public class Platform {
 
     public Optional<Account> getAccount(Integer id) {
         return Optional.ofNullable(accounts.get(id));
+    }
+
+    public Set<Integer> getCoursesIds() {
+        return knownCourses.keySet();
+    }
+
+    public int getAddedStudents() {
+        final var _addedStudents = addedStudents;
+        addedStudents = 0;
+        return _addedStudents;
     }
 }

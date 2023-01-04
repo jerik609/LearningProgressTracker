@@ -5,19 +5,19 @@ import java.util.List;
 
 public class CourseScore {
 
-    private final String name;
+    private final Integer id;
     private final List<Integer> points = new ArrayList<>();
 
-    public CourseScore(String name) {
-        this.name = name;
+    public CourseScore(Integer id) {
+        this.id = id;
     }
 
     public void addPoints(int i) {
         points.add(i);
     }
 
-    public String getName() {
-        return name;
+    public Integer getId() {
+        return id;
     }
 
     public int getTotalPoints() {

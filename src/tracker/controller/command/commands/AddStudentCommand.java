@@ -18,17 +18,18 @@ public class AddStudentCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Enter student credentials or 'back' to return:");
-        var addedCount = 0;
         do {
             final var input = scanner.nextLine();
             if (input.equals("back")) {
-                System.out.println("Total " + addedCount + " students have been added.");
+                System.out.println("Total " + platform.getAddedStudents() + " students have been added.");
                 break;
             }
-            var student = Input.parseStudentStr(input).orElseThrow();
-            platform.createAccount(student);
-            System.out.println("The student has been added.");
-            ++addedCount;
+            Input.parseStudentStr(input).ifPresent(
+                    student -> {
+                        if (platform.createAccount(student)) {
+                            System.out.println("The student has been added.");
+                        }
+                    });
         } while (true);
     }
 }
