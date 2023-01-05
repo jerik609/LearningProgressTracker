@@ -6,6 +6,7 @@ import tracker.data.student.Student;
 
 import java.security.InvalidParameterException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Platform {
     private int nextCourseId = 0;
@@ -48,5 +49,16 @@ public class Platform {
         final var _addedStudents = addedStudents;
         addedStudents = 0;
         return _addedStudents;
+    }
+
+    public String getAccountDetails(String id) {
+        final var account = accounts.get(id);
+        if (account == null) {
+            return "No student is found for id=" + id;
+        } else {
+            return id + " points: " + account.getCourses().entrySet().stream()
+                    .map(course -> knownCourses.get(course.getKey()) + "=" + course.getValue().getTotalPoints())
+                    .collect(Collectors.joining("; "));
+        }
     }
 }

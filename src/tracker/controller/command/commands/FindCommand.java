@@ -17,5 +17,12 @@ public class FindCommand implements Command {
     @Override
     public void execute() {
         System.out.println("Enter an id or 'back' to return");
+        do {
+            final var inputStr = scanner.nextLine();
+            if (inputStr.equals("back")) {
+                break;
+            }
+            System.out.println(platform.getAccountDetails(inputStr));
+        } while (true);
     }
 }

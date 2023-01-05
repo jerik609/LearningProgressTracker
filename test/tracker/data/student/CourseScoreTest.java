@@ -13,7 +13,7 @@ class CourseScoreTest {
         course.addPoints(5);
         course.addPoints(1);
         course.addPoints(7);
-        assertEquals(13, course.getId());
+        assertEquals("Java", course.getId());
         assertEquals(23, course.getTotalPoints());
     }
 }

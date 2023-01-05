@@ -1,10 +1,10 @@
 package tracker.data.platform;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tracker.data.platform.Account;
-import tracker.data.platform.Platform;
 import tracker.data.student.EmailAddress;
 import tracker.data.student.Name;
+import tracker.data.student.PointsInput;
 import tracker.data.student.Student;
 
 import java.util.List;
@@ -14,9 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlatformTest {
 
-    @Test
-    void createPlatformTest() {
-        var platform = new Platform();
+    private Platform platform;
+
+    @BeforeEach
+    void init() {
+        platform = new Platform();
         platform.addCourse("Cooking");
         platform.addCourse("Baking");
         var student = new Student.Builder()
@@ -25,6 +27,15 @@ class PlatformTest {
                 .build();
         platform.createAccount(student);
 
+        var account = platform.getAccount(Account.getLastAccountId())
+                .orElseThrow(() -> new RuntimeException("Could not create account!"));
+
+        final var pointsInput = new PointsInput(account.getId(), new int[]{5, 7});
+        account.addPoints(pointsInput);
+    }
+
+    @Test
+    void createPlatformTest() {
         var accountIds = platform.getAccountIds();
 
         assertEquals(1, accountIds.size());
@@ -38,6 +49,7 @@ class PlatformTest {
     }
 
     @Test
-    void createAccount() {
+    void getScore() {
+        assertEquals(Account.getLastAccountId() + " points: Cooking=5; Baking=7", platform.getAccountDetails(Account.getLastAccountId()));
     }
 }
