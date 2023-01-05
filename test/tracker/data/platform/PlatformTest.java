@@ -31,7 +31,7 @@ class PlatformTest {
         var account = platform.getAccount(accountIds.stream().findFirst().orElseThrow()).orElseThrow();
 
         assertEquals(Account.getLastAccountId(), account.getId());
-        assertEquals(Set.of("Cooking", "Baking"), account.getCourses().keySet());
+        assertEquals(Set.of(0, 1), account.getCourses().keySet());
         assertEquals("Wile", account.getStudent().getName().getFirstname());
         assertEquals("Coyote", account.getStudent().getName().getSurname());
         assertEquals("test@test.tst", account.getStudent().getEmailAddress().getEmailAddress());

@@ -45,10 +45,15 @@ public class Input {
         if (!validPointsPattern.matcher(input).matches()) {
             return Optional.empty();
         }
-        final var split = Arrays.stream(input.split(INPUT_SPLIT_PATTERN_REGEX)).mapToInt(Integer::parseInt).toArray();
+
+        final var split = input.split(INPUT_SPLIT_PATTERN_REGEX);
         if (split.length - 1 != platform.getCoursesIds().size()) {
             return Optional.empty();
         }
-        return Optional.of(new PointsInput(split[0], Arrays.copyOfRange(split, 1, split.length)));
+
+        final var accountId = split[0];
+        final var points = Arrays.stream(Arrays.copyOfRange(split, 1, split.length)).mapToInt(Integer::parseInt).toArray();
+
+        return Optional.of(new PointsInput(accountId, points));
     }
 }

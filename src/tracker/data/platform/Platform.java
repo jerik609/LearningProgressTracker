@@ -13,7 +13,7 @@ public class Platform {
 
     private final Set<EmailAddress> knownEmails = new HashSet<>();
     private final Map<Integer, String> knownCourses = new LinkedHashMap<>();
-    private final Map<Integer, Account> accounts = new LinkedHashMap<>();
+    private final Map<String, Account> accounts = new LinkedHashMap<>();
 
     public void addCourse(String courseId) {
         knownCourses.put(nextCourseId, courseId);
@@ -32,11 +32,11 @@ public class Platform {
         return true;
     }
 
-    public Set<Integer> getAccountIds() {
+    public Set<String> getAccountIds() {
         return accounts.keySet();
     }
 
-    public Optional<Account> getAccount(Integer id) {
+    public Optional<Account> getAccount(String id) {
         return Optional.ofNullable(accounts.get(id));
     }
 

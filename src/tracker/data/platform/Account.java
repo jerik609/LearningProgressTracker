@@ -14,12 +14,12 @@ import java.util.stream.Stream;
 public class Account {
     private static int lastAccountId = 10000;
 
-    private final int id;
+    private final String id;
     private final Student student;
     private final Map<Integer, CourseScore> courses = new HashMap<>();
 
     private Account(Student student, Set<Integer> courses) {
-        this.id = ++lastAccountId;
+        this.id = String.valueOf(++lastAccountId);
         this.student = student;
         for (var course : courses) {
             var courseScore = new CourseScore(course);
@@ -27,11 +27,11 @@ public class Account {
         }
     }
 
-    public static int getLastAccountId() {
-        return lastAccountId;
+    public static String getLastAccountId() {
+        return String.valueOf(lastAccountId);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
