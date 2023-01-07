@@ -7,49 +7,62 @@ import tracker.data.student.Name;
 import tracker.data.student.PointsInput;
 import tracker.data.student.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlatformTest {
-
     private Platform platform;
+
+    private String createAccount(String firstname, String surname, String email) {
+        final var student = new Student.Builder()
+                .name(Name.buildFrom(List.of(firstname, surname)))
+                .emailAddress(EmailAddress.buildFrom(email))
+                .build();
+        final var id = platform.createAccount(student);
+        assertFalse(id.isEmpty());
+        return id;
+    }
+
+    private void addPoints(String accountId, int... points) {
+        //final var account = platform.getAccount(accountId).orElseThrow();
+        platform.addPoints(new PointsInput(accountId, points));
+    }
 
     @BeforeEach
     void init() {
         platform = new Platform();
         platform.addCourse("Cooking");
         platform.addCourse("Baking");
-        var student = new Student.Builder()
-                .name(Name.buildFrom(List.of("Wile", "Coyote")))
-                .emailAddress(EmailAddress.buildFrom("test@test.tst"))
-                .build();
-        platform.createAccount(student);
-
-        var account = platform.getAccount(Account.getLastAccountId())
-                .orElseThrow(() -> new RuntimeException("Could not create account!"));
-
-        final var pointsInput = new PointsInput(account.getId(), new int[]{5, 7});
-        account.addPoints(pointsInput);
     }
 
     @Test
     void createPlatformTest() {
-        var accountIds = platform.getAccountIds();
+        final var acct1 = createAccount("Wile", "Coyote", "wile.coyote@acme.com");
+        final var acct2 = createAccount("Road", "Runner", "fasterthanlight@acme.com");
 
-        assertEquals(1, accountIds.size());
-        var account = platform.getAccount(accountIds.stream().findFirst().orElseThrow()).orElseThrow();
+        assertEquals(2, platform.getAccountIds().size());
 
-        assertEquals(Account.getLastAccountId(), account.getId());
-        assertEquals(Set.of(0, 1), account.getCourses().keySet());
-        assertEquals("Wile", account.getStudent().getName().getFirstname());
-        assertEquals("Coyote", account.getStudent().getName().getSurname());
-        assertEquals("test@test.tst", account.getStudent().getEmailAddress().getEmailAddress());
+        addPoints(acct1, 0, 0);
+        addPoints(acct2, 1, 0);
+
+        assertEquals(Set.of(0, 1), platform.getAccount(acct1).get().getCourses().keySet());
+        assertEquals("Wile", platform.getAccount(acct1).get().getStudent().getName().getFirstname());
+        assertEquals("Coyote", platform.getAccount(acct1).get().getStudent().getName().getSurname());
+        assertEquals("wile.coyote@acme.com", platform.getAccount(acct1).get().getStudent().getEmailAddress().getEmailAddress());
+    }
+
+    @Test
+    void getMostPopularCourse() {
+
     }
 
     @Test
     void getScore() {
-        assertEquals(Account.getLastAccountId() + " points: Cooking=5; Baking=7", platform.getAccountDetails(Account.getLastAccountId()));
+        final var acct1 = createAccount("Wile", "Coyote", "wile.coyote@acme.com");
+        addPoints(acct1, 5, 7);
+        assertEquals(acct1 + " points: Cooking=5; Baking=7", platform.getAccountDetails(Account.getLastAccountId()));
     }
 }

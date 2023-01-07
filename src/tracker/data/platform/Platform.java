@@ -2,6 +2,7 @@ package tracker.data.platform;
 
 import tracker.data.platform.Account;
 import tracker.data.student.EmailAddress;
+import tracker.data.student.PointsInput;
 import tracker.data.student.Student;
 
 import java.security.InvalidParameterException;
@@ -21,16 +22,31 @@ public class Platform {
         nextCourseId++;
     }
 
-    public boolean createAccount(Student student) {
+    public boolean addPoints(PointsInput points) {
+        if (points.points().length != knownCourses.size()) {
+            //throw new InvalidParameterException("points and courses sizes do not match");
+            return false;
+        }
+        final var account = accounts.get(points.studentId());
+        if (account == null) {
+            return false;
+        }
+        for (int i = 0; i < points.points().length; ++i) {
+            account.getCourses().get(i).addPoints(points.points()[i]);
+        }
+        return true;
+    }
+
+    public String createAccount(Student student) {
         if (knownEmails.contains(student.getEmailAddress())) {
             System.out.println("This email is already taken.");
-            return false;
+            return "";
         }
         final var account = new Account.Builder().student(student).courses(knownCourses.keySet()).build();
         accounts.putIfAbsent(account.getId(), account);
         knownEmails.add(student.getEmailAddress());
         addedStudents++;
-        return true;
+        return account.getId();
     }
 
     public Set<String> getAccountIds() {

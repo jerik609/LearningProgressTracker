@@ -26,7 +26,7 @@ public class AddStudentCommand implements Command {
             }
             Input.parseStudentStr(input).ifPresent(
                     student -> {
-                        if (platform.createAccount(student)) {
+                        if (!platform.createAccount(student).equals("")) {
                             System.out.println("The student has been added.");
                         }
                     });

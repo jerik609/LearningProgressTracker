@@ -43,12 +43,12 @@ public class Account {
         return student;
     }
 
-    public void addPoints(PointsInput points) {
-        if (points.points().length != courses.size()) {
+    public void addPoints(int[] points) {
+        if (points.length != courses.size()) {
             throw new InvalidParameterException("points and courses sizes do not match");
         }
-        for (int i = 0; i < points.points().length; ++i) {
-            courses.get(i).addPoints(points.points()[i]);
+        for (int i = 0; i < points.length; ++i) {
+            courses.get(i).addPoints(points[i]);
         }
     }
 

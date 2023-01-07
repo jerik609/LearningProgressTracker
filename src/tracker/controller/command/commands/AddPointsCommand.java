@@ -26,12 +26,12 @@ public class AddPointsCommand implements Command {
                 break;
             }
             input.parseScore(inputStr).ifPresentOrElse(
-                    points -> platform.getAccount(points.studentId()).ifPresentOrElse(
-                            account -> {
-                                account.addPoints(points);
-                                System.out.println("Points updated.");
-                            },
-                            () -> System.out.println("No student is found for id=" + points.studentId())),
+                    points -> {
+                        if (platform.addPoints(points)) {
+                            System.out.println("Points updated.");
+                        } else {
+                            System.out.println("No student is found for id=" + points.studentId());
+                        }},
                     () -> System.out.println("Incorrect points format."));
         } while (true);
     }
