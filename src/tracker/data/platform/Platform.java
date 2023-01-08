@@ -94,6 +94,11 @@ public class Platform {
     public static final Comparator<Map.Entry<Integer, Long>> SORT_ASC =
             (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
 
+    public static final Comparator<Map.Entry<Integer, Double>> DOUBLE_SORT_DESC =
+            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+    public static final Comparator<Map.Entry<Integer, Double>> DOUBLE_SORT_ASC =
+            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
+
     private Map<Integer, Long> getTotalEnrolledStudentsPerCourse() {
         // for all student accounts
         return accounts.entrySet().stream()
@@ -128,7 +133,7 @@ public class Platform {
         return getTotalTasksPerCourse().entrySet().stream().sorted(comparator).toList();
     }
 
-    private Map<Integer, Long> getAverageScorePerCourse() {
+    private Map<Integer, Double> getAverageScorePerCourse() {
         // for all student accounts
         final var totalScorePerCourse = accounts.entrySet().stream()
                 // stream their "course score tracking" entities (= their number is equal to number of courses)
@@ -143,12 +148,15 @@ public class Platform {
         System.out.println(totalScorePerCourse);
         System.out.println(tasksPerCourse);
 
-        totalScorePerCourse.forEach((key, value) -> tasksPerCourse.merge(key, value, (aLong, aLong2) -> aLong2 / aLong));
+        var resultMap = new HashMap<Integer, Double>();
+        totalScorePerCourse.forEach((key, value) -> resultMap.put(key, value / tasksPerCourse.get(key).doubleValue()));
 
-        return tasksPerCourse;
+        System.out.println(resultMap);
+
+        return resultMap;
     }
 
-    public List<Map.Entry<Integer, Long>> getSortedAverageScorePerCourse(Comparator<Map.Entry<Integer, Long>> comparator) {
+    public List<Map.Entry<Integer, Double>> getSortedAverageScorePerCourse(Comparator<Map.Entry<Integer, Double>> comparator) {
         return getAverageScorePerCourse().entrySet().stream().sorted(comparator).toList();
     }
 }

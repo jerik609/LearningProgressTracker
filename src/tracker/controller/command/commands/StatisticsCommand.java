@@ -15,13 +15,11 @@ public class StatisticsCommand implements Command {
         this.platform = platform;
     }
 
-    private void printWhileSame(List<Map.Entry<Integer, Long>> list) {
+    private <T> void printWhileSame(List<Map.Entry<Integer, T>> list) {
         if (!list.isEmpty()) {
             var value = list.get(0).getValue();
-            System.out.println(value);
             System.out.println(
                     list.stream()
-                            .peek(integerLongEntry -> System.out.println(integerLongEntry.getValue()))
                             .filter(entry -> entry.getValue().equals(value))
                             .map(entry -> platform.getCourseName(entry.getKey()))
                             .collect(Collectors.joining(", ")));
@@ -43,9 +41,9 @@ public class StatisticsCommand implements Command {
         System.out.print("Lowest activity:");
         printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.SORT_ASC));
         System.out.print("Easiest course:");
-        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.SORT_DESC));
+        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.DOUBLE_SORT_DESC));
         System.out.print("Hardest course:");
-        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.SORT_ASC));
+        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.DOUBLE_SORT_ASC));
 
         do {
             final var inputStr = scanner.nextLine();

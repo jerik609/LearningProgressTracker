@@ -62,6 +62,6 @@ public class StatisticsTest {
     // Hardest course = as easiest course, but reversed
     @Test
     void getEasiestCourseTest() {
-        assertEquals("[3=7, 0=5, 2=5, 1=4]", platform.getSortedAverageScorePerCourse(Platform.SORT_DESC).toString());
+        assertEquals("[3=7.0, 2=5.166666666666667, 0=5.0, 1=4.125]", platform.getSortedAverageScorePerCourse(Platform.DOUBLE_SORT_DESC).toString());
     }
 }
