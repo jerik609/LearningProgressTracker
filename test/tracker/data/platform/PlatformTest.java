@@ -55,8 +55,33 @@ class PlatformTest {
     }
 
     @Test
-    void getMostPopularCourse() {
+    void getCourseStats() {
+        //var stats = platform.getStatistics(String course);
+    }
 
+    @Test
+    void getCoursesByStringTest() {
+        platform.addCourse("Swimming");
+        platform.addCourse("Eating");
+        platform.addCourse("Swimming");
+        assertEquals(2, platform.getCourseIdsForCourseName("Swimming").size());
+    }
+
+    @Test
+    void getMostPopularCourse() {
+        platform.addCourse("Sleeping");
+
+        final var acct1 = createAccount("Wile", "Coyote", "wile.coyote@acme.com");
+        final var acct2 = createAccount("Road", "Runner", "fasterthanlight@acme.com");
+        final var acct3 = createAccount("John", "Doe", "john.doe@gmail.com");
+
+        //assertEquals(2, platform.getAccountIds().size());
+
+        addPoints(acct1, 0, 0, 10);
+        addPoints(acct2, 1, 4, 0);
+        addPoints(acct3, 16, 0, 12);
+
+        System.out.println(platform.totalCoursesScoreCount());
     }
 
     @Test

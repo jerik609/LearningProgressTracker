@@ -43,6 +43,7 @@ public class Account {
         return student;
     }
 
+    @Deprecated
     public void addPoints(int[] points) {
         if (points.length != courses.size()) {
             throw new InvalidParameterException("points and courses sizes do not match");

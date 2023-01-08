@@ -5,7 +5,6 @@ import tracker.data.student.EmailAddress;
 import tracker.data.student.PointsInput;
 import tracker.data.student.Student;
 
-import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -59,6 +58,24 @@ public class Platform {
 
     public Set<Integer> getCoursesIds() {
         return knownCourses.keySet();
+    }
+
+    public Set<Integer> getCourseIdsForCourseName(String courseName) {
+        return knownCourses.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(courseName))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+    }
+
+    public Map<Integer, Integer> totalCoursesScoreCount() {
+        var enrolledStudents = accounts.entrySet().stream()
+                .flatMap(account -> account.getValue().getCourses().entrySet().stream())
+                .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        initial -> 0,
+                        (prev, newVal) -> ++prev));
+        return enrolledStudents;
     }
 
     public int getAddedStudents() {
