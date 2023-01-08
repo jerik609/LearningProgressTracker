@@ -13,11 +13,12 @@ public class Platform {
     private int addedStudents = 0;
 
     private final Set<EmailAddress> knownEmails = new HashSet<>();
-    private final Map<Integer, String> knownCourses = new LinkedHashMap<>();
+    private final Map<Integer, Course> knownCourses = new LinkedHashMap<>();
     private final Map<String, Account> accounts = new LinkedHashMap<>();
 
-    public void addCourse(String courseId) {
-        knownCourses.put(nextCourseId, courseId);
+    public void addCourse(String courseName, int requiredPoints) {
+        final var course = new Course(courseName, requiredPoints);
+        knownCourses.put(nextCourseId, course);
         nextCourseId++;
     }
 
@@ -73,7 +74,7 @@ public class Platform {
                 .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        initial -> 0,
+                        initial -> 1,
                         (prev, newVal) -> ++prev));
         return enrolledStudents;
     }
