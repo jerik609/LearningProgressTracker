@@ -23,7 +23,6 @@ public class Platform {
 
     public boolean addPoints(PointsInput points) {
         if (points.points().length != knownCourses.size()) {
-            //throw new InvalidParameterException("points and courses sizes do not match");
             return false;
         }
         final var account = accounts.get(points.studentId());
@@ -31,7 +30,7 @@ public class Platform {
             return false;
         }
         for (int i = 0; i < points.points().length; ++i) {
-            account.getCourses().get(i).addPoints(points.points()[i]);
+            account.addPoints(i, points.points()[i]);
         }
         return true;
     }
@@ -62,7 +61,7 @@ public class Platform {
 
     public Set<Integer> getCourseIdsForCourseName(String courseName) {
         return knownCourses.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(courseName))
+                .filter(entry -> entry.getValue().courseName().equals(courseName))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toSet());
     }
@@ -84,15 +83,19 @@ public class Platform {
         }
     }
 
+    //TODO: make internal
     public Map<Integer, Integer> getEnrolledStudentsPerCourse() {
-        var enrolledStudents = accounts.entrySet().stream()
+        // for all student accounts
+        return accounts.entrySet().stream()
+                // stream their "course score tracking" entities (= their number is equal to number of courses)
                 .flatMap(account -> account.getValue().getCourses().entrySet().stream())
+                // filter only those entities, which have points (= student is enrolled to that course)
                 .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
+                // count number of non-zero entries (=student is enrolled) and store under the course id (= key)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         initial -> 1,
-                        (prev, newVal) -> prev + 1)); // 1
-        return enrolledStudents;
+                        (prev, newVal) -> prev + 1));
     }
 
     public List<Map.Entry<Integer, Integer>> getCoursesOrderedByNumberOfEnrolledStudents() {
@@ -101,15 +104,17 @@ public class Platform {
         ).toList();
     }
 
+    //TODO: make internal
     public Map<Integer, Long> getTasksPerCourse() {
-        var totalTasks = accounts.entrySet().stream()
+        // for all student accounts
+        return accounts.entrySet().stream()
+                // stream their "course score tracking" entities (= their number is equal to number of courses)
                 .flatMap(account -> account.getValue().getCourses().entrySet().stream())
-                .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
+                // sum up total number of tasks and store them under the course id (= key)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         initial -> initial.getValue().getTotalTasks(),
                         Long::sum));
-        return totalTasks;
     }
 
     public List<Map.Entry<Integer, Long>> getCoursesOrderedByNumberOfTasks() {
