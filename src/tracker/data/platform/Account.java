@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Account {
-    private static int lastAccountId = 10000;
+    private static int lastAccountId = 9999;
 
     private final String id;
     private final Student student;

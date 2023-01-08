@@ -21,6 +21,10 @@ public class Platform {
         nextCourseId++;
     }
 
+    public String getCourseName(int courseId) {
+        return knownCourses.containsKey(courseId) ? knownCourses.get(courseId).courseName() : "n/a";
+    }
+
     public boolean addPoints(PointsInput points) {
         if (points.points().length != knownCourses.size()) {
             return false;
@@ -85,8 +89,10 @@ public class Platform {
 
     // statistics methods
 
-    private static final Comparator<Map.Entry<Integer, Long>> ORDER_MAP_ENTRIES_DESC =
+    public static final Comparator<Map.Entry<Integer, Long>> SORT_DESC =
             (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+    public static final Comparator<Map.Entry<Integer, Long>> SORT_ASC =
+            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
 
     private Map<Integer, Long> getTotalEnrolledStudentsPerCourse() {
         // for all student accounts
@@ -102,8 +108,8 @@ public class Platform {
                         (prev, newVal) -> prev + 1));
     }
 
-    public List<Map.Entry<Integer, Long>> getSortedTotalEnrolledStudentsPerCourse() {
-        return getTotalEnrolledStudentsPerCourse().entrySet().stream().sorted(ORDER_MAP_ENTRIES_DESC).toList();
+    public List<Map.Entry<Integer, Long>> getSortedTotalEnrolledStudentsPerCourse(Comparator<Map.Entry<Integer, Long>> comparator) {
+        return getTotalEnrolledStudentsPerCourse().entrySet().stream().sorted(comparator).toList();
     }
 
     private Map<Integer, Long> getTotalTasksPerCourse() {
@@ -118,8 +124,8 @@ public class Platform {
                         Long::sum));
     }
 
-    public List<Map.Entry<Integer, Long>> getSortedTotalTasksPerCourse() {
-        return getTotalTasksPerCourse().entrySet().stream().sorted(ORDER_MAP_ENTRIES_DESC).toList();
+    public List<Map.Entry<Integer, Long>> getSortedTotalTasksPerCourse(Comparator<Map.Entry<Integer, Long>> comparator) {
+        return getTotalTasksPerCourse().entrySet().stream().sorted(comparator).toList();
     }
 
     private Map<Integer, Long> getAverageScorePerCourse() {
@@ -142,7 +148,7 @@ public class Platform {
         return tasksPerCourse;
     }
 
-    public List<Map.Entry<Integer, Long>> getSortedAverageScorePerCourse() {
-        return getAverageScorePerCourse().entrySet().stream().sorted(ORDER_MAP_ENTRIES_DESC).toList();
+    public List<Map.Entry<Integer, Long>> getSortedAverageScorePerCourse(Comparator<Map.Entry<Integer, Long>> comparator) {
+        return getAverageScorePerCourse().entrySet().stream().sorted(comparator).toList();
     }
 }

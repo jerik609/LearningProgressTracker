@@ -48,20 +48,20 @@ public class StatisticsTest {
     // Least popular = as most popular, but reversed
     @Test
     void getMostPopularCourse() {
-        assertEquals("[1=4, 0=3, 2=3, 3=1]", platform.getSortedTotalEnrolledStudentsPerCourse().toString());
+        assertEquals("[1=4, 0=3, 2=3, 3=1]", platform.getSortedTotalEnrolledStudentsPerCourse(Platform.SORT_DESC).toString());
     }
 
     // Highest activity = ordering by number of completed tasks (number of tasks submissions)
     // Lowest activity = as highest activity, but reversed
     @Test
     void getHighestActivityCourse() {
-        assertEquals("[1=8, 0=6, 2=6, 3=2]", platform.getSortedTotalTasksPerCourse().toString());
+        assertEquals("[1=8, 0=6, 2=6, 3=2]", platform.getSortedTotalTasksPerCourse(Platform.SORT_DESC).toString());
     }
 
     // Easiest course = ordering by highest average grade per assignment
     // Hardest course = as easiest course, but reversed
     @Test
     void getEasiestCourseTest() {
-        assertEquals("[3=7, 0=5, 2=5, 1=4]", platform.getSortedAverageScorePerCourse().toString());
+        assertEquals("[3=7, 0=5, 2=5, 1=4]", platform.getSortedAverageScorePerCourse(Platform.SORT_DESC).toString());
     }
 }
