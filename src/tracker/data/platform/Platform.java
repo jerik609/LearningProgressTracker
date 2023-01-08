@@ -83,8 +83,12 @@ public class Platform {
         }
     }
 
-    //TODO: make internal
-    public Map<Integer, Integer> getEnrolledStudentsPerCourse() {
+    // statistics methods
+
+    private static final Comparator<Map.Entry<Integer, Long>> ORDER_MAP_ENTRIES_DESC =
+            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+
+    private Map<Integer, Long> getTotalEnrolledStudentsPerCourse() {
         // for all student accounts
         return accounts.entrySet().stream()
                 // stream their "course score tracking" entities (= their number is equal to number of courses)
@@ -94,18 +98,15 @@ public class Platform {
                 // count number of non-zero entries (=student is enrolled) and store under the course id (= key)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        initial -> 1,
+                        initial -> 1L,
                         (prev, newVal) -> prev + 1));
     }
 
-    public List<Map.Entry<Integer, Integer>> getCoursesOrderedByNumberOfEnrolledStudents() {
-        return getEnrolledStudentsPerCourse().entrySet().stream().sorted(
-                (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1
-        ).toList();
+    public List<Map.Entry<Integer, Long>> getSortedTotalEnrolledStudentsPerCourse() {
+        return getTotalEnrolledStudentsPerCourse().entrySet().stream().sorted(ORDER_MAP_ENTRIES_DESC).toList();
     }
 
-    //TODO: make internal
-    public Map<Integer, Long> getTasksPerCourse() {
+    private Map<Integer, Long> getTotalTasksPerCourse() {
         // for all student accounts
         return accounts.entrySet().stream()
                 // stream their "course score tracking" entities (= their number is equal to number of courses)
@@ -117,9 +118,31 @@ public class Platform {
                         Long::sum));
     }
 
-    public List<Map.Entry<Integer, Long>> getCoursesOrderedByNumberOfTasks() {
-        return getTasksPerCourse().entrySet().stream().sorted(
-                (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1
-        ).toList();
+    public List<Map.Entry<Integer, Long>> getSortedTotalTasksPerCourse() {
+        return getTotalTasksPerCourse().entrySet().stream().sorted(ORDER_MAP_ENTRIES_DESC).toList();
+    }
+
+    private Map<Integer, Long> getAverageScorePerCourse() {
+        // for all student accounts
+        final var totalScorePerCourse = accounts.entrySet().stream()
+                // stream their "course score tracking" entities (= their number is equal to number of courses)
+                .flatMap(account -> account.getValue().getCourses().entrySet().stream())
+                // sum up total score and store them under the course id (= key)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        initial -> Long.valueOf(initial.getValue().getTotalPoints()),
+                        Long::sum));
+        final var tasksPerCourse = getTotalTasksPerCourse();
+
+        System.out.println(totalScorePerCourse);
+        System.out.println(tasksPerCourse);
+
+        totalScorePerCourse.forEach((key, value) -> tasksPerCourse.merge(key, value, (aLong, aLong2) -> aLong2 / aLong));
+
+        return tasksPerCourse;
+    }
+
+    public List<Map.Entry<Integer, Long>> getSortedAverageScorePerCourse() {
+        return getAverageScorePerCourse().entrySet().stream().sorted(ORDER_MAP_ENTRIES_DESC).toList();
     }
 }

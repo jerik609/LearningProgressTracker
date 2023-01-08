@@ -11,7 +11,6 @@ import static tracker.data.platform.PlatformTestUtils.addPoints;
 import static tracker.data.platform.PlatformTestUtils.createAccount;
 
 public class StatisticsTest {
-
     private Platform platform;
     private List<String> userIds;
 
@@ -44,22 +43,25 @@ public class StatisticsTest {
         addPoints(platform, userIds.get(3), 3, 1, 3, 7);
     }
 
+
     // Most popular = ordering by number of enrolled students (a student is enrolled, if he has any score in that course)
     // Least popular = as most popular, but reversed
-    // Highest activity = ordering by number of completed tasks (number of tasks submissions)
-    // Lowest activity = as highest activity, but reversed
-    // Easiest course = ordering by highest average grade per assignment
-    // Hardest course = as easiest course, but reversed
-
     @Test
     void getMostPopularCourse() {
-        System.out.println(platform.getEnrolledStudentsPerCourse());
-        System.out.println(platform.getCoursesOrderedByNumberOfEnrolledStudents());
+        assertEquals("[1=4, 0=3, 2=3, 3=1]", platform.getSortedTotalEnrolledStudentsPerCourse().toString());
     }
 
+    // Highest activity = ordering by number of completed tasks (number of tasks submissions)
+    // Lowest activity = as highest activity, but reversed
     @Test
     void getHighestActivityCourse() {
-        System.out.println(platform.getTasksPerCourse());
-        System.out.println(platform.getCoursesOrderedByNumberOfTasks());
+        assertEquals("[1=8, 0=6, 2=6, 3=2]", platform.getSortedTotalTasksPerCourse().toString());
+    }
+
+    // Easiest course = ordering by highest average grade per assignment
+    // Hardest course = as easiest course, but reversed
+    @Test
+    void getEasiestCourseTest() {
+        assertEquals("[3=7, 0=5, 2=5, 1=4]", platform.getSortedAverageScorePerCourse().toString());
     }
 }

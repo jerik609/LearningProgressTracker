@@ -43,8 +43,13 @@ public class Account {
         return student;
     }
 
-    public void addPoints(int courseId, int points) {
-        getCourses().get(courseId).addPoints(points);
+    public boolean addPoints(int courseId, int points) {
+        if (points != 0) {
+            getCourses().get(courseId).addPoints(points);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static class Builder {

@@ -25,6 +25,6 @@ public class CourseScore {
     }
 
     public long getTotalTasks() {
-        return points.stream().count();
+        return points.size();
     }
 }
