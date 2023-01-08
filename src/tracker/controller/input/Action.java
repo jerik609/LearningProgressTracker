@@ -8,6 +8,7 @@ public enum Action {
     BACK("back"),
     LIST_STUDENTS("list"),
     ADD_POINTS("add points"),
+    STATISTICS("statistics"),
     FIND_STUDENT("find");
 
     private final String commandStr;

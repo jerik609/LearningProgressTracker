@@ -29,6 +29,7 @@ public class CommandFactory {
             case LIST_STUDENTS -> new ListCommand(platform);
             case ADD_POINTS -> new AddPointsCommand(scanner, platform);
             case FIND_STUDENT -> new FindCommand(scanner, platform);
+            case STATISTICS -> new StatisticsCommand(scanner, platform);
         };
     }
 }
