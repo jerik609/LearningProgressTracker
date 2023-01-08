@@ -1,6 +1,5 @@
 package tracker.data.platform;
 
-import tracker.data.platform.Account;
 import tracker.data.student.EmailAddress;
 import tracker.data.student.PointsInput;
 import tracker.data.student.Student;
@@ -68,17 +67,6 @@ public class Platform {
                 .collect(Collectors.toSet());
     }
 
-    public Map<Integer, Integer> totalCoursesScoreCount() {
-        var enrolledStudents = accounts.entrySet().stream()
-                .flatMap(account -> account.getValue().getCourses().entrySet().stream())
-                .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        initial -> 1,
-                        (prev, newVal) -> ++prev));
-        return enrolledStudents;
-    }
-
     public int getAddedStudents() {
         final var _addedStudents = addedStudents;
         addedStudents = 0;
@@ -94,5 +82,39 @@ public class Platform {
                     .map(course -> knownCourses.get(course.getKey()) + "=" + course.getValue().getTotalPoints())
                     .collect(Collectors.joining("; "));
         }
+    }
+
+    public Map<Integer, Integer> getEnrolledStudentsPerCourse() {
+        var enrolledStudents = accounts.entrySet().stream()
+                .flatMap(account -> account.getValue().getCourses().entrySet().stream())
+                .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        initial -> 1,
+                        (prev, newVal) -> prev + 1)); // 1
+        return enrolledStudents;
+    }
+
+    public List<Map.Entry<Integer, Integer>> getCoursesOrderedByNumberOfEnrolledStudents() {
+        return getEnrolledStudentsPerCourse().entrySet().stream().sorted(
+                (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1
+        ).toList();
+    }
+
+    public Map<Integer, Long> getTasksPerCourse() {
+        var totalTasks = accounts.entrySet().stream()
+                .flatMap(account -> account.getValue().getCourses().entrySet().stream())
+                .filter(accountCourse -> accountCourse.getValue().getTotalPoints() > 0)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        initial -> initial.getValue().getTotalTasks(),
+                        Long::sum));
+        return totalTasks;
+    }
+
+    public List<Map.Entry<Integer, Long>> getCoursesOrderedByNumberOfTasks() {
+        return getTasksPerCourse().entrySet().stream().sorted(
+                (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1
+        ).toList();
     }
 }

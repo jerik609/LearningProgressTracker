@@ -23,4 +23,8 @@ public class CourseScore {
     public int getTotalPoints() {
         return points.stream().mapToInt(Integer::intValue).sum();
     }
+
+    public long getTotalTasks() {
+        return points.stream().count();
+    }
 }
