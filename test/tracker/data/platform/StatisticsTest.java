@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tracker.data.platform.PlatformTestUtils.addPoints;
@@ -48,20 +50,25 @@ public class StatisticsTest {
     // Least popular = as most popular, but reversed
     @Test
     void getMostPopularCourse() {
-        assertEquals("[1=4, 0=3, 2=3, 3=1]", platform.getSortedTotalEnrolledStudentsPerCourse(Platform.SORT_DESC).toString());
+        assertEquals("[1=4, 0=3, 2=3, 3=1]", platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc()).toString());
     }
 
     // Highest activity = ordering by number of completed tasks (number of tasks submissions)
     // Lowest activity = as highest activity, but reversed
     @Test
     void getHighestActivityCourse() {
-        assertEquals("[1=8, 0=6, 2=6, 3=2]", platform.getSortedTotalTasksPerCourse(Platform.SORT_DESC).toString());
+        assertEquals("[1=8, 0=6, 2=6, 3=2]", platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc()).toString());
     }
 
     // Easiest course = ordering by highest average grade per assignment
     // Hardest course = as easiest course, but reversed
     @Test
     void getEasiestCourseTest() {
-        assertEquals("[3=7.0, 2=5.166666666666667, 0=5.0, 1=4.125]", platform.getSortedAverageScorePerCourse(Platform.DOUBLE_SORT_DESC).toString());
+        assertEquals("[3=7.0, 2=5.166666666666667, 0=5.0, 1=4.125]", platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc()).toString());
+    }
+
+    @Test
+    void getWhatever() {
+        System.out.println(platform.topLearners(0).entrySet().stream().sorted(Platform.sortLongDesc()).toList());
     }
 }

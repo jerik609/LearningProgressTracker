@@ -20,7 +20,7 @@ public class CourseScore {
         return id;
     }
 
-    public int getTotalPoints() {
+    public long getTotalPoints() {
         return points.stream().mapToInt(Integer::intValue).sum();
     }
 

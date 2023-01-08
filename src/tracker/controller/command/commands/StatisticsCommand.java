@@ -33,17 +33,17 @@ public class StatisticsCommand implements Command {
         System.out.println("Type the name of a course to see details or 'back' to quit");
 
         System.out.print("Most popular:");
-        printWhileSame(platform.getSortedTotalEnrolledStudentsPerCourse(Platform.SORT_DESC));
+        printWhileSame(platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc()));
         System.out.print("Least popular:");
-        printWhileSame(platform.getSortedTotalEnrolledStudentsPerCourse(Platform.SORT_ASC));
+        printWhileSame(platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongAsc()));
         System.out.print("Highest activity:");
-        printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.SORT_DESC));
+        printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc()));
         System.out.print("Lowest activity:");
-        printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.SORT_ASC));
+        printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.sortLongAsc()));
         System.out.print("Easiest course:");
-        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.DOUBLE_SORT_DESC));
+        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc()));
         System.out.print("Hardest course:");
-        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.DOUBLE_SORT_ASC));
+        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.sortDoubleAsc()));
 
         do {
             final var inputStr = scanner.nextLine();

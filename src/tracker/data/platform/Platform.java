@@ -89,15 +89,33 @@ public class Platform {
 
     // statistics methods
 
-    public static final Comparator<Map.Entry<Integer, Long>> SORT_DESC =
-            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
-    public static final Comparator<Map.Entry<Integer, Long>> SORT_ASC =
-            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
+    public static <T> Comparator<Map.Entry<T, Long>> sortLongDesc() {
+        return (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+    }
 
-    public static final Comparator<Map.Entry<Integer, Double>> DOUBLE_SORT_DESC =
-            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
-    public static final Comparator<Map.Entry<Integer, Double>> DOUBLE_SORT_ASC =
-            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
+    public static <T> Comparator<Map.Entry<T, Long>> sortLongAsc() {
+        return (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+    }
+
+    public static <T> Comparator<Map.Entry<T, Double>> sortDoubleDesc() {
+        return (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+    }
+
+    public static <T> Comparator<Map.Entry<T, Double>> sortDoubleAsc() {
+        return (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
+    }
+
+//    public static final Comparator<Map.Entry<Integer, Long>> SORT_DESC =
+//            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+
+//    public static final Comparator<Map.Entry<Integer, Long>> SORT_ASC =
+//            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
+
+//    public static final Comparator<Map.Entry<Integer, Double>> DOUBLE_SORT_DESC =
+//            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+
+//    public static final Comparator<Map.Entry<Integer, Double>> DOUBLE_SORT_ASC =
+//            (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
 
     private Map<Integer, Long> getTotalEnrolledStudentsPerCourse() {
         // for all student accounts
@@ -159,4 +177,12 @@ public class Platform {
     public List<Map.Entry<Integer, Double>> getSortedAverageScorePerCourse(Comparator<Map.Entry<Integer, Double>> comparator) {
         return getAverageScorePerCourse().entrySet().stream().sorted(comparator).toList();
     }
+
+    public Map<String, Long> topLearners(int courseId) {
+        return accounts.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey, entry -> entry.getValue().getCourses().get(courseId).getTotalPoints()
+        ));
+    }
+
+
 }
