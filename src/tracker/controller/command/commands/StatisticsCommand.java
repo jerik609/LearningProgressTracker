@@ -85,11 +85,10 @@ public class StatisticsCommand implements Command {
                 .entrySet()
                 .stream()
                 .sorted(Platform.<String>sortLongDesc().thenComparing(Map.Entry::getKey))
-                .toList()
+                .filter(entry -> platform.getAccount(entry.getKey()).get().getCourses().get(courseId).getTotalPoints() > 0)
                 .forEach(entry -> {
                     final var totalPoints = platform.getAccount(entry.getKey()).get().getCourses().get(courseId).getTotalPoints();
                     final var requiredPoints = platform.getCourse(courseId).requiredPoints();
-                    double x = 0;
                     System.out.printf("%s\t\t%d\t",
                             entry.getKey(),
                             totalPoints);
