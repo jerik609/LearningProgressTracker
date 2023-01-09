@@ -49,17 +49,17 @@ public class StatisticsCommand implements Command {
     }
 
     public static void printPlatformStatistics(Platform platform) {
-        System.out.print("Most popular:");
+        System.out.print("Most popular: ");
         printWhileSame(platform, platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc()));
-        System.out.print("Least popular:");
+        System.out.print("Least popular: ");
         printWhileSame(platform, platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongAsc()));
-        System.out.print("Highest activity:");
+        System.out.print("Highest activity: ");
         printWhileSame(platform, platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc()));
-        System.out.print("Lowest activity:");
+        System.out.print("Lowest activity: ");
         printWhileSame(platform, platform.getSortedTotalTasksPerCourse(Platform.sortLongAsc()));
-        System.out.print("Easiest course:");
+        System.out.print("Easiest course: ");
         printWhileSame(platform, platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc()));
-        System.out.print("Hardest course:");
+        System.out.print("Hardest course: ");
         printWhileSame(platform, platform.getSortedAverageScorePerCourse(Platform.sortDoubleAsc()));
     }
 
