@@ -5,6 +5,7 @@ import tracker.data.student.PointsInput;
 import tracker.data.student.Student;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Platform {
@@ -190,13 +191,16 @@ public class Platform {
 
     // notification
     public void notifyCompleted() {
+        var notified = new HashSet<String>();
         accounts.forEach((key, value) -> value.getCourses().forEach((integer, courseScore) -> {
             if (!courseScore.isNotified() && courseScore.getTotalPoints() >= knownCourses.get(courseScore.getId()).requiredPoints()) {
                 courseScore.setNotified();
+                notified.add(key);
                 System.out.printf("To: %s\n", value.getStudent().getEmailAddress().getEmailAddress());
                 System.out.println("Re: Your Learning Progress");
                 System.out.printf("Hello, %s! You have accomplished our %s course!\n", value.getStudent().getName(), getCourseName(integer));
             }
         }));
+        System.out.printf("Total %d student has been notified.", notified.size());
     }
 }
