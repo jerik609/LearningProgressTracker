@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Sorting {
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         List<String> list = new ArrayList<>(List.of("hello", "hellno", "abcd", "zyx", "yello"));
         Comparator<String> compie = Comparator.naturalOrder();
         list.sort(compie.reversed());

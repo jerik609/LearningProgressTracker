@@ -86,7 +86,7 @@ public class Platform {
             return "No student is found for id=" + id;
         } else {
             return id + " points: " + account.getCourses().entrySet().stream()
-                    .map(course -> knownCourses.get(course.getKey()) + "=" + course.getValue().getTotalPoints())
+                    .map(course -> knownCourses.get(course.getKey()).courseName() + "=" + course.getValue().getTotalPoints())
                     .collect(Collectors.joining("; "));
         }
     }

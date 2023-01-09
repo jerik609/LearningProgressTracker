@@ -26,9 +26,12 @@ public class StatisticsCommand implements Command {
             if (inputStr.equals("back")) {
                 break;
             }
-            platform.getCourseIdsForCourseName(inputStr).forEach(id -> {
-                printCourseDetails(platform, id);
-            });
+            var courses = platform.getCourseIdsForCourseName(inputStr);
+            if (courses.isEmpty()) {
+                System.out.println("Unknown course.");
+            } else {
+                courses.forEach(id -> printCourseDetails(platform, id));
+            }
         } while (true);
     }
 
