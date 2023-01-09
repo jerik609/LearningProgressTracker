@@ -30,6 +30,7 @@ public class CommandFactory {
             case ADD_POINTS -> new AddPointsCommand(scanner, platform);
             case FIND_STUDENT -> new FindCommand(scanner, platform);
             case STATISTICS -> new StatisticsCommand(scanner, platform);
+            case NOTIFY -> new NotifyCommand(platform);
         };
     }
 }

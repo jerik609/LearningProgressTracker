@@ -188,4 +188,15 @@ public class Platform {
         ));
     }
 
+    // notification
+    public void notifyCompleted() {
+        accounts.forEach((key, value) -> value.getCourses().forEach((integer, courseScore) -> {
+            if (!courseScore.isNotified() && courseScore.getTotalPoints() >= knownCourses.get(courseScore.getId()).requiredPoints()) {
+                courseScore.setNotified();
+                System.out.printf("To: %s\n", value.getStudent().getEmailAddress().getEmailAddress());
+                System.out.println("Re: Your Learning Progress");
+                System.out.printf("Hello, %s! You have accomplished our %s course!\n", value.getStudent().getName(), getCourseName(integer));
+            }
+        }));
+    }
 }

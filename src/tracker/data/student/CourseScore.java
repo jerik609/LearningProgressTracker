@@ -6,6 +6,7 @@ import java.util.List;
 public class CourseScore {
 
     private final Integer id;
+    private boolean notified = false;
     private final List<Integer> points = new ArrayList<>();
 
     public CourseScore(Integer id) {
@@ -26,5 +27,13 @@ public class CourseScore {
 
     public long getTotalTasks() {
         return points.size();
+    }
+
+    public void setNotified() {
+        notified = true;
+    }
+
+    public boolean isNotified() {
+        return notified;
     }
 }

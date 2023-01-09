@@ -9,7 +9,8 @@ public enum Action {
     LIST_STUDENTS("list"),
     ADD_POINTS("add points"),
     STATISTICS("statistics"),
-    FIND_STUDENT("find");
+    FIND_STUDENT("find"),
+    NOTIFY("notify");
 
     private final String commandStr;
 
