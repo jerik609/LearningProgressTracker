@@ -15,7 +15,22 @@ public class StatisticsCommand implements Command {
         this.platform = platform;
     }
 
-    private <T> void printWhileSame(List<Map.Entry<Integer, T>> list) {
+    @Override
+    public void execute() {
+        System.out.println("Type the name of a course to see details or 'back' to quit");
+        printPlatformStatistics(platform);
+        do {
+            final var inputStr = scanner.nextLine();
+            if (inputStr.equals("back")) {
+                break;
+            }
+            platform.getCourseIdsForCourseName(inputStr).forEach(id -> {
+                printCourseDetails(platform, id);
+            });
+        } while (true);
+    }
+
+    private static <T> void printWhileSame(Platform platform, List<Map.Entry<Integer, T>> list) {
         if (!list.isEmpty()) {
             var value = list.get(0).getValue();
             System.out.println(
@@ -28,29 +43,37 @@ public class StatisticsCommand implements Command {
         }
     }
 
-    @Override
-    public void execute() {
-        System.out.println("Type the name of a course to see details or 'back' to quit");
-
+    public static void printPlatformStatistics(Platform platform) {
         System.out.print("Most popular:");
-        printWhileSame(platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc()));
+        printWhileSame(platform, platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc()));
         System.out.print("Least popular:");
-        printWhileSame(platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongAsc()));
+        printWhileSame(platform, platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongAsc()));
         System.out.print("Highest activity:");
-        printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc()));
+        printWhileSame(platform, platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc()));
         System.out.print("Lowest activity:");
-        printWhileSame(platform.getSortedTotalTasksPerCourse(Platform.sortLongAsc()));
+        printWhileSame(platform, platform.getSortedTotalTasksPerCourse(Platform.sortLongAsc()));
         System.out.print("Easiest course:");
-        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc()));
+        printWhileSame(platform, platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc()));
         System.out.print("Hardest course:");
-        printWhileSame(platform.getSortedAverageScorePerCourse(Platform.sortDoubleAsc()));
-
-        do {
-            final var inputStr = scanner.nextLine();
-            if (inputStr.equals("back")) {
-                break;
-            }
-        } while (true);
-
+        printWhileSame(platform, platform.getSortedAverageScorePerCourse(Platform.sortDoubleAsc()));
     }
+
+    public static void printCourseDetails(Platform platform, int courseId) {
+        System.out.println(platform.getCourseName(courseId));
+        System.out.println("id points completed");
+        platform.topLearners(courseId)
+                .entrySet()
+                .stream()
+                .sorted(Platform.<String>sortLongDesc().thenComparing(Map.Entry::getKey))
+                .toList()
+                .forEach(entry -> {
+                    final var totalPoints = platform.getAccount(entry.getKey()).get().getCourses().get(courseId).getTotalPoints();
+                    final var requiredPoints = platform.getCourse(courseId).requiredPoints();
+                    System.out.printf("%s %d %.1f\n",
+                            entry.getKey(),
+                            totalPoints,
+                            (double)requiredPoints / totalPoints);
+                    });
+    }
+
 }

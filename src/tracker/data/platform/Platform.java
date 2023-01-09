@@ -63,6 +63,10 @@ public class Platform {
         return knownCourses.keySet();
     }
 
+    public Course getCourse(int id) {
+        return knownCourses.get(id);
+    }
+
     public Set<Integer> getCourseIdsForCourseName(String courseName) {
         return knownCourses.entrySet().stream()
                 .filter(entry -> entry.getValue().courseName().equals(courseName))
@@ -183,6 +187,5 @@ public class Platform {
                 Map.Entry::getKey, entry -> entry.getValue().getCourses().get(courseId).getTotalPoints()
         ));
     }
-
 
 }

@@ -69,6 +69,20 @@ public class StatisticsTest {
 
     @Test
     void getWhatever() {
-        System.out.println(platform.topLearners(0).entrySet().stream().sorted(Platform.sortLongDesc()).toList());
+        Comparator<Map.Entry<String, Long>> comparator = Platform.<String>sortLongDesc().reversed();
+
+        addPoints(platform, userIds.get(0), 5, 0, 0, 0);
+        addPoints(platform, userIds.get(1), 14, 0, 0, 0);
+        addPoints(platform, userIds.get(2), 0, 0, 0, 0);
+        addPoints(platform, userIds.get(3), 7, 0, 0, 0);
+
+        System.out.println(
+                platform.topLearners(0)
+                        .entrySet()
+                        .stream()
+                        .sorted(Platform.<String>sortLongDesc()
+                                .thenComparing(Map.Entry::getKey)
+                                .reversed())
+                        .toList());
     }
 }
