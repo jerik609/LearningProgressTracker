@@ -3,6 +3,8 @@ package tracker.controller.command.commands;
 import tracker.controller.command.Command;
 import tracker.data.platform.Platform;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,7 +62,7 @@ public class StatisticsCommand implements Command {
 
     public static void printCourseDetails(Platform platform, int courseId) {
         System.out.println(platform.getCourseName(courseId));
-        System.out.println("id points completed");
+        System.out.println("id\t\tpoints\tcompleted");
         platform.topLearners(courseId)
                 .entrySet()
                 .stream()
@@ -69,11 +71,15 @@ public class StatisticsCommand implements Command {
                 .forEach(entry -> {
                     final var totalPoints = platform.getAccount(entry.getKey()).get().getCourses().get(courseId).getTotalPoints();
                     final var requiredPoints = platform.getCourse(courseId).requiredPoints();
-                    System.out.printf("%s %d %.1f\n",
+                    double x = 0;
+                    System.out.printf("%s\t\t%d\t",
                             entry.getKey(),
-                            totalPoints,
-                            (double)requiredPoints / totalPoints);
-                    });
+                            totalPoints);
+                    System.out.printf(
+                            Locale.US, "%,.1f%%\n",
+                            requiredPoints == 0 ? BigDecimal.valueOf(0) :
+                                    BigDecimal.valueOf(totalPoints * 100)
+                                    .divide(BigDecimal.valueOf(requiredPoints), 1, RoundingMode.HALF_UP));
+                });
     }
-
 }

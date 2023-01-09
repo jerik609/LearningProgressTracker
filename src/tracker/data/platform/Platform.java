@@ -98,7 +98,7 @@ public class Platform {
     }
 
     public static <T> Comparator<Map.Entry<T, Long>> sortLongAsc() {
-        return (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() < o2.getValue() ? 1 : -1;
+        return (o1, o2) -> o1.getValue().equals(o2.getValue()) ? 0 : o1.getValue() > o2.getValue() ? 1 : -1;
     }
 
     public static <T> Comparator<Map.Entry<T, Double>> sortDoubleDesc() {
@@ -167,13 +167,13 @@ public class Platform {
                         Long::sum));
         final var tasksPerCourse = getTotalTasksPerCourse();
 
-        System.out.println(totalScorePerCourse);
-        System.out.println(tasksPerCourse);
+        //System.out.println(totalScorePerCourse);
+        //System.out.println(tasksPerCourse);
 
         var resultMap = new HashMap<Integer, Double>();
         totalScorePerCourse.forEach((key, value) -> resultMap.put(key, value / tasksPerCourse.get(key).doubleValue()));
 
-        System.out.println(resultMap);
+        //System.out.println(resultMap);
 
         return resultMap;
     }

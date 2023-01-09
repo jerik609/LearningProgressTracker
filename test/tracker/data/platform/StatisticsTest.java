@@ -2,6 +2,7 @@ package tracker.data.platform;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tracker.controller.command.commands.StatisticsCommand;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -85,4 +86,11 @@ public class StatisticsTest {
                                 .reversed())
                         .toList());
     }
+
+    @Test
+    void printTest() {
+        StatisticsCommand.printPlatformStatistics(platform);
+        StatisticsCommand.printCourseDetails(platform, 0);
+    }
+
 }
