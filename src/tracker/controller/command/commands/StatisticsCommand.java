@@ -1,5 +1,6 @@
 package tracker.controller.command.commands;
 
+import com.sun.security.jgss.GSSUtil;
 import tracker.controller.command.Command;
 import tracker.data.platform.Platform;
 
@@ -49,18 +50,32 @@ public class StatisticsCommand implements Command {
     }
 
     public static void printPlatformStatistics(Platform platform) {
+        var mostPopular = platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc());
+        var leastPopular = platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongAsc()).stream().filter(
+                entry -> !entry.getValue().equals(mostPopular.get(0).getValue())).toList();
+
+        var highestActivity = platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc());
+        var lowestActivity = platform.getSortedTotalTasksPerCourse(Platform.sortLongAsc()).stream().filter(
+                entry -> !entry.getValue().equals(highestActivity.get(0).getValue())).toList();
+
+        var easiestCourse = platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc());
+        var hardestCourse = platform.getSortedAverageScorePerCourse(Platform.sortDoubleAsc()).stream().filter(
+                entry -> !entry.getValue().equals(easiestCourse.get(0).getValue())).toList();
+
         System.out.print("Most popular: ");
-        printWhileSame(platform, platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongDesc()));
+        printWhileSame(platform, mostPopular);
         System.out.print("Least popular: ");
-        printWhileSame(platform, platform.getSortedTotalEnrolledStudentsPerCourse(Platform.sortLongAsc()));
+        printWhileSame(platform, leastPopular);
+
         System.out.print("Highest activity: ");
-        printWhileSame(platform, platform.getSortedTotalTasksPerCourse(Platform.sortLongDesc()));
+        printWhileSame(platform, highestActivity);
         System.out.print("Lowest activity: ");
-        printWhileSame(platform, platform.getSortedTotalTasksPerCourse(Platform.sortLongAsc()));
+        printWhileSame(platform, lowestActivity);
+
         System.out.print("Easiest course: ");
-        printWhileSame(platform, platform.getSortedAverageScorePerCourse(Platform.sortDoubleDesc()));
+        printWhileSame(platform, easiestCourse);
         System.out.print("Hardest course: ");
-        printWhileSame(platform, platform.getSortedAverageScorePerCourse(Platform.sortDoubleAsc()));
+        printWhileSame(platform, hardestCourse);
     }
 
     public static void printCourseDetails(Platform platform, int courseId) {
